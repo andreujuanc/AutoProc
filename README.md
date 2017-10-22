@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/andreujuanc/AutoProc.svg?branch=master)](https://travis-ci.org/andreujuanc/AutoProc)
+
 # AutoProc
 AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.
 
