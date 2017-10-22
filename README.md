@@ -1,8 +1,9 @@
 # AutoProc
 AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.
 
-# Please, understand this project is in early days. 
+## Please, understand this project is in early days. 
 # DO NOT USE IN PRODUCTION YET.
+## Authentication, Authorization and Security mechanisms are not yet implemented.
 
 ## Basic Usage
 With a couple of lines of code you can start having a working app without the hazle of coding controllers for each api, or changing query statements in your app. This way all your business logic resides in the database and delutes the backend size by a big margin.
