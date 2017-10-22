@@ -1,0 +1,105 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<section class="section">
+    <div id="autoProcDemo" class="container">
+
+    </div>
+</section>
+
+<script id="demotemplate" type="ractive/html">
+    <div class="columns">
+        <div class="column">
+            <h1 class="title">
+                AutoProc Demo!
+            </h1>
+            <p class="subtitle">
+                My first website with <strong>AutoProc</strong>!
+            </p>
+        </div>
+        <div class="column">
+            <button class="button is-primary" on-click="@@this.refresh()">Refresh Data</button>
+        </div>
+    </div>
+   <div class="columns">
+    <div class="column">
+        <h3>Results from dataset to Json (<strong>Dapper dynamic to JsonResult</strong>)</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        UpdatedDate
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each items}}
+                <tr>
+                    <td>
+                        {{id}}
+                    </td>
+                    <td>
+                        {{UpdatedDate}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div class="column">
+        <h3>Results directly from Sql Json (<strong>FOR JSON PATH</strong>)</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        UpdatedDate
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each items2}}
+                <tr>
+                    <td>
+                        {{id}}
+                    </td>
+                    <td>
+                        {{UpdatedDate}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+       </div>
+</script>
+
+<script>
+    var page = new Ractive({
+        el: "#autoProcDemo",
+        template: '#demotemplate',
+        data: {
+            items: [],
+            items2: []
+        },
+        oninit: function () { 
+            this.refresh();
+        },
+        refresh: function () { 
+            fetch('api/autoproc/central/dbo/GET/Items')
+                .then(x => x.json())
+                .then(items => page.set('items', items));
+            fetch('api/autoproc/central/dbo/GET/ItemsJson')
+                .then(x => x.json())
+                .then(items => page.set('items2', items));
+        }
+    });
+</script>
