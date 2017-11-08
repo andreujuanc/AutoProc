@@ -19,6 +19,7 @@ namespace AutoProcMiddleware
 
     {
         private AutoProcContextOptions _options = null;
+        
         public AutoProcMiddleware(AutoProcContextOptions options)
         {
             _options = options;
@@ -31,7 +32,7 @@ namespace AutoProcMiddleware
             httpContext.Response.StatusCode = 400;
             var apr = new RequestParser()
                .GetRequest(httpContext);
-            if (string.IsNullOrWhiteSpace(apr.Procedure)) return;
+            if(!new RequestValidator().ValidateRequest(apr)) return;
             var result = await ExecuteAsync(httpContext, apr);
 
             if (result == null)

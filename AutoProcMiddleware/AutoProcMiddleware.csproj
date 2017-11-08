@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Juan C. Andreu</Authors>
+    <Company />
+    <Product>AutoProc Middleware</Product>
+    <Description>AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.</Description>
+    <PackageId>AutoProcMiddleware</PackageId>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/andreujuanc/AutoProc</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/andreujuanc/AutoProc/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/andreujuanc/AutoProc</RepositoryUrl>
+    <PackageTags>dotnetcore aspnetcore midleware automatic dynamic api endpoint database easy</PackageTags>
+    <PackageReleaseNotes>First release</PackageReleaseNotes>
   </PropertyGroup>
 
 
