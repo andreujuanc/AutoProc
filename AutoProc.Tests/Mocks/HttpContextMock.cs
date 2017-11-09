@@ -46,13 +46,13 @@ namespace AutoProc.Tests.Mocks
         //    return Create("GET", "localhost", path, querystring);
         //}
 
-        public static async Task<DefaultHttpContext> Create(string source = null, string schema = null, string type = null, string procedure = null)
+        public static async Task<DefaultHttpContext> Create(string method = null, string source = null, string schema = null, string type = null, string procedure = null)
         {
             var context = new DefaultHttpContext();
-
+            context.Request.Method = method;
             context.Request.Path = GetRequestPath(source, schema, type, procedure);
-          
-            var routerContext = CreateRouteContext(context.Request.Path);
+            
+            var routerContext = CreateRouteContext(context.Request.Path, method);
             var route = CreateRoute("api/autoproc/{source}/{schema}/{type}/{procedure}");
             await route.RouteAsync(routerContext);
 
@@ -77,7 +77,7 @@ namespace AutoProc.Tests.Mocks
             return $"/api/autoproc/{source}/{schema}/{type}/{procedure}";
         }
 
-        private static RouteContext CreateRouteContext(string requestPath, ILoggerFactory factory = null)
+        private static RouteContext CreateRouteContext(string requestPath, string method , ILoggerFactory factory = null)
         {
             if (factory == null)
             {
@@ -86,6 +86,8 @@ namespace AutoProc.Tests.Mocks
 
             var request = new Mock<HttpRequest>(MockBehavior.Strict);
             request.SetupGet(r => r.Path).Returns(requestPath);
+            request.SetupGet(r => r.Method).Returns(method);
+
 
             var context = new Mock<HttpContext>(MockBehavior.Strict);
             context.Setup(m => m.RequestServices.GetService(typeof(ILoggerFactory)))

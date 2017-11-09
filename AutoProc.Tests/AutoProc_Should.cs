@@ -28,7 +28,7 @@ namespace AutoProc.Tests
         [Fact]
         public async void Invoke_Get_Simple()
         {
-            var context = await HttpContextMock.Create("central", "dbo", "Z", "Test"); 
+            var context = await HttpContextMock.Create("GET", "central", "dbo", "Z", "Test"); 
             var apm = CreateAutoProc();
             await apm.Invoke(context);
             Assert.Equal(200, context.Response.StatusCode);
@@ -37,7 +37,7 @@ namespace AutoProc.Tests
         [Fact]
         public async void Invoke_NoParameters()
         {
-            var context = await HttpContextMock.Create("central", "dbo", "Z", "Test");
+            var context = await HttpContextMock.Create("GET", "central", "dbo", "Z", "Test");
             var apm = CreateAutoProc(new AutoProcMiddleware.Core.AutoProcContextOptions());
             await apm.Invoke(context);
             Assert.Equal(400, context.Response.StatusCode);
