@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "AutoProc.Tests"
+		},
+		{
+			"path": "AutoProcMiddleware"
+		},
+		{
+			"path": "AutoProc.Sample"
+		}
+	],
+	"settings": {}
+}

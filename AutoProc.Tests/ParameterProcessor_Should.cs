@@ -8,7 +8,7 @@ namespace AutoProc.Tests
         [Fact]
         public async void ParseParametersFromJsonBody()
         {
-            var context = await Mocks.HttpContextMock.Create("central", "dbo", "Z", "Test");
+            var context = await Mocks.HttpContextMock.Create("GET", "central", "dbo", "Z", "Test");
             context.Request.Body = Mocks.HttpContextMock.GenerateStreamFromString(
                 @"
                     {

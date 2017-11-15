@@ -11,7 +11,7 @@ namespace AutoProc.Tests
         public async void Invoke_Fail_EmptyRequest()
         {
             var context = await HttpContextMock.Create();
-            var apm = CreateAutoProc();
+            var apm = AutoProcFactory.CreateAutoProc();
             await apm.Invoke(context);
             Assert.Equal(400, context.Response.StatusCode);
         }
@@ -20,7 +20,7 @@ namespace AutoProc.Tests
         public async void Invoke_Fail_BadRequest()
         {
             var context = await HttpContextMock.Create();
-            var apm = CreateAutoProc();
+            var apm = AutoProcFactory.CreateAutoProc();
             await apm.Invoke(context);
             Assert.Equal(400, context.Response.StatusCode);
         }
@@ -29,7 +29,7 @@ namespace AutoProc.Tests
         public async void Invoke_Get_Simple()
         {
             var context = await HttpContextMock.Create("GET", "central", "dbo", "Z", "Test"); 
-            var apm = CreateAutoProc();
+            var apm = AutoProcFactory.CreateAutoProc();
             await apm.Invoke(context);
             Assert.Equal(200, context.Response.StatusCode);
         }
@@ -38,17 +38,11 @@ namespace AutoProc.Tests
         public async void Invoke_NoParameters()
         {
             var context = await HttpContextMock.Create("GET", "central", "dbo", "Z", "Test");
-            var apm = CreateAutoProc(new AutoProcMiddleware.Core.AutoProcContextOptions());
+            var apm = AutoProcFactory.CreateAutoProc(new AutoProcMiddleware.Core.AutoProcContextOptions());
             await apm.Invoke(context);
             Assert.Equal(400, context.Response.StatusCode);
         }
 
-        private AutoProcMiddleware.AutoProcMiddleware CreateAutoProc(AutoProcMiddleware.Core.AutoProcContextOptions options = null)
-        {
-            return new AutoProcMiddleware.AutoProcMiddleware(options ?? new AutoProcMiddleware.Core.AutoProcContextOptions()
-            {
-                OnNeedDbConnection = (context, aprequest) => new DbConnectionMock()
-            });
-        }
+       
     }
 }

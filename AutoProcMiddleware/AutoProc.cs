@@ -69,6 +69,10 @@ namespace AutoProcMiddleware
 
         }
 
+        internal string GetProcedureName(AutoProcRequest request)
+        {
+            return $"{request.Schema}.P_{request.Type}_{request.Procedure}";
+        }
 
         internal async Task<IEnumerable<dynamic>> ExecuteAsync(HttpContext httpContext, AutoProcRequest request)
         {
@@ -83,7 +87,7 @@ namespace AutoProcMiddleware
             //IEnumerable<dynamic> result;
             try
             {
-                var ProcName = $"{request.Schema}.P_{request.Type}_{request.Procedure}";
+                var ProcName = GetProcedureName(request);
                 //result = await dbcon.QueryAsync(ProcName, parameters, null, null, System.Data.CommandType.StoredProcedure);
                 var result = connection.Query(ProcName, request.Parameters, null, true, null, System.Data.CommandType.StoredProcedure);
                 return result;
