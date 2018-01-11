@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AutoProcMiddleware</id>
+    <version>1.0.1</version>
+    <authors>Juan C. Andreu</authors>
+    <owners>Juan C. Andreu</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/andreujuanc/AutoProc/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/andreujuanc/AutoProc</projectUrl>
+    <description>AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.</description>
+    <releaseNotes>First release</releaseNotes>
+    <tags>dotnetcore aspnetcore midleware automatic dynamic api endpoint database easy</tags>
+    <repository url="https://github.com/andreujuanc/AutoProc" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Dapper" version="1.50.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Http" version="2.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging" version="2.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Routing" version="2.0.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

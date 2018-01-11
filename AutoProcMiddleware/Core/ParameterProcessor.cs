@@ -44,21 +44,21 @@ namespace AutoProcMiddleware.Core
             }
 
 
-            //foreach (var item in httpContext.Request.Query)
-            //{
-            //    if (item.Key.ToLower() == "idfabrica" || item.Key.ToLower() == "v")
-            //        continue;
-            //    if (item.Key.ToLower() == "includeuser" && item.Value == "true")
-            //    {
-            //        rp.Add("ID_USER_LLAMADA", httpContext.GetUserId());
-            //        continue;
-            //    }
+            foreach (var item in httpContext.Request.Query)
+            {
+                //    if (item.Key.ToLower() == "idfabrica" || item.Key.ToLower() == "v")
+                //        continue;
+                //    if (item.Key.ToLower() == "includeuser" && item.Value == "true")
+                //    {
+                //        rp.Add("ID_USER_LLAMADA", httpContext.GetUserId());
+                //        continue;
+                //    }
 
-            //    if (rp.ContainsKey(item.Key))
-            //        rp[item.Key] = item.Value[0].ToString();
-            //    else
-            //        rp.Add(item.Key, item.Value[0].ToString());
-            //}
+                if (rp.ContainsKey(item.Key))
+                    rp[item.Key] = item.Value[0];
+                else
+                    rp.Add(item.Key, item.Value[0]);
+            }
 
 
             return rp;
