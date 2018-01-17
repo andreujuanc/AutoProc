@@ -10,9 +10,13 @@ namespace AutoProcMiddleware.Core
     {
 
         /// <summary>
-        /// Override it to set the connection for each execution. This allows multiple databases to be targeted based on custom conditions.
+        /// Sets the connection for each execution. This allows multiple databases to be targeted based on custom conditions.
         /// </summary>
         public Func<HttpContext, AutoProcRequest, IDbConnection> OnNeedDbConnection;
+        /// <summary>
+        /// Set it to manage execution authorization for each request. This allows multiple databases to be targeted based on custom conditions.
+        /// </summary>
+        public Func<HttpContext, AutoProcRequest, bool> OnNeedExecutionAuthorization;
         /// <summary>
         /// Where do you want AutoProc to live at. Default is api/autoproc/..
         /// </summary>

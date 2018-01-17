@@ -19,7 +19,7 @@ namespace AutoProcMiddleware
 
     {
         private AutoProcContextOptions _options = null;
-        
+
         public AutoProcMiddleware(AutoProcContextOptions options)
         {
             _options = options;
@@ -32,7 +32,17 @@ namespace AutoProcMiddleware
             httpContext.Response.StatusCode = 400;
             var apr = new RequestParser()
                .GetRequest(httpContext);
-            if(!new RequestValidator().ValidateRequest(apr)) return;
+            if (!new RequestValidator().ValidateRequest(apr)) return;
+
+            var requiresAuth = _options.OnNeedExecutionAuthorization?.Invoke(httpContext, apr) ?? false;
+            if (requiresAuth && !httpContext.User.Identity.IsAuthenticated)
+            {
+                //    throw new UnauthorizedAccessException();
+                httpContext.Response.ContentType = "text/html charset=utf-8";
+                httpContext.Response.StatusCode = 401;
+                return;
+            }
+
             var result = await ExecuteAsync(httpContext, apr);
 
             if (result == null)
@@ -106,8 +116,8 @@ namespace AutoProcMiddleware
 
         private IDbConnection GetOpenDbContext(HttpContext context, AutoProcRequest aprequest)
         {
-            var cnn =  _options?.OnNeedDbConnection?.Invoke(context, aprequest);
-            if(cnn != null && cnn.State !=  ConnectionState.Open)
+            var cnn = _options?.OnNeedDbConnection?.Invoke(context, aprequest);
+            if (cnn != null && cnn.State != ConnectionState.Open)
                 cnn.Open();
             return cnn;
         }
@@ -167,5 +177,5 @@ namespace AutoProcMiddleware
         //}
     }
 
-  
+
 }

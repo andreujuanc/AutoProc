@@ -19,13 +19,6 @@ namespace AutoProcMiddleware
         public static IApplicationBuilder UseAutoProc(this IApplicationBuilder app, Action<AutoProcContextOptions> optionBuilder = null)
         {
             AutoProcContextOptions options = null;
-            var handler = new RouteHandler(async context =>
-            {
-                //if (!context.User.Identity.IsAuthenticated)
-                //    throw new UnauthorizedAccessException();
-
-                await new AutoProcMiddleware(options).Invoke(context);
-            });
 
             if (options == null)
             {
@@ -47,6 +40,8 @@ namespace AutoProcMiddleware
             {
                 options.OnNeedDbConnection = (context, aprequest) => { return context.RequestServices.GetService(typeof(IDbConnection)) as IDbConnection; };
             }
+
+            var handler = new RouteHandler(async context => await new AutoProcMiddleware(options).Invoke(context));
 
             var routeBuilder = new RouteBuilder(app, handler);
             routeBuilder.MapRoute("Main", options.Path + "{source}/{schema}/{type}/{procedure}");

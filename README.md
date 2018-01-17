@@ -44,8 +44,16 @@ This is called before every execution. You can change the connection dynamically
 
 `context` is the HttpContext 
 
-`aprRequest` contains parsed information about from the request and query
+`aprRequest` contains parsed information about from the request and query. AutoProcRequest
  
+### OnNeedExecutionAuthorization
+This is called before every execution. Return boolean. If true, then the request must be authenticated.
+
+`context` is the HttpContext 
+
+`aprRequest` contains parsed information about from the request and query. AutoProcRequest
+
+
 ### BypassORM
 Defaults to false. Setting this to true makes AutoProc look for the the first column which the name starts with "JSON" and returns the string content from the first row.
 
