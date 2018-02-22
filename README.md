@@ -12,6 +12,8 @@ Requests can be handled via delegate to cancel the request, to set the DbConnect
 ## Please, understand this project is in early days. 
 
 ## Basic Usage
+``dotnet add package AutoProcMiddleware``
+
 With a couple of lines of code you can start having a working app without the hazle of coding controllers for each api, or changing query statements in your app. This way all your business logic resides in the database and delutes the backend size by a big margin.
 
 ### In your backend
