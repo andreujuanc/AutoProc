@@ -13,10 +13,13 @@ namespace AutoProcMiddleware.Core
         /// Sets the connection for each execution. This allows multiple databases to be targeted based on custom conditions.
         /// </summary>
         public Func<HttpContext, AutoProcRequest, IDbConnection> OnNeedDbConnection;
+
         /// <summary>
-        /// Set it to manage execution authorization for each request. This allows multiple databases to be targeted based on custom conditions.
+        /// Allows per-request customization.
+        /// Return false to unauthorize the execution.
         /// </summary>
-        public Func<HttpContext, AutoProcRequest, bool> OnNeedExecutionAuthorization;
+        public Func<HttpContext, AutoProcRequest, bool> OnPreExecute;
+
         /// <summary>
         /// Where do you want AutoProc to live at. Default is api/autoproc/..
         /// </summary>
@@ -26,5 +29,10 @@ namespace AutoProcMiddleware.Core
         /// If the database returns a valid json, autoproc will just write that to the response.
         /// </summary>
         public bool BypassORM { get; set; } = false;
+
+        /// <summary>
+        ///If in the request parameters includeUser = true then AutoProc will include the following parameter automatically with the authenticated user id
+        /// </summary>
+        public string DBUserIdParameterName { get; set; }  = "UserId";
     }
 }

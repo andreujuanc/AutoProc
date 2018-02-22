@@ -56,7 +56,7 @@ namespace AutoProcMiddleware.Core
                 //        continue;
                 if (httpContext.User != null && item.Key.ToLower() == "includeuser" && item.Value == "true")
                 {
-                    rp.Add("ID_USER_LLAMADA", httpContext.User.GetUserId());
+                    rp.Add(Options.DBUserIdParameterName, httpContext.User.GetUserId());
                     continue;
                 }
 

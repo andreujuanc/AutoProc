@@ -36,7 +36,7 @@ namespace AutoProcMiddleware
                .GetRequest(httpContext);
             if (!new RequestValidator().ValidateRequest(apr)) return;
 
-            var requiresAuth = _options.OnNeedExecutionAuthorization?.Invoke(httpContext, apr) ?? false;
+            var requiresAuth = _options.OnPreExecute?.Invoke(httpContext, apr) ?? false;
             if (requiresAuth && !httpContext.User.Identity.IsAuthenticated)
             {
                 //    throw new UnauthorizedAccessException();
