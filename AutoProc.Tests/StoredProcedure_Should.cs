@@ -14,7 +14,8 @@ namespace AutoProc.Tests
         public async void NotBeEmpty()
         {
             var context = await Mocks.HttpContextMock.Create("GET", "central", "dbo", "Z", "Test");
-            var apr = new RequestParser().GetRequest(context);
+            var options = new AutoProcMiddleware.Core.AutoProcContextOptions();
+            var apr = new RequestParser(options).GetRequest(context);
             var apm = AutoProcFactory.CreateAutoProc(new AutoProcMiddleware.Core.AutoProcContextOptions());
             var aptype = apm.GetType();
             var method = aptype.GetMethod("GetProcedureName", BindingFlags.Instance | BindingFlags.NonPublic);

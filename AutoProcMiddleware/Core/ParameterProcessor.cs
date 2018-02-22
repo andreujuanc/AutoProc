@@ -54,9 +54,10 @@ namespace AutoProcMiddleware.Core
             {
                 //    if (item.Key.ToLower() == "idfabrica" || item.Key.ToLower() == "v")
                 //        continue;
-                if (httpContext.User != null && item.Key.ToLower() == "includeuser" && item.Value == "true")
+                if (item.Key.ToLower() == "includeuser" )
                 {
-                    rp.Add(Options.DBUserIdParameterName, httpContext.User.GetUserId());
+                    if(item.Value == "true" && httpContext.User != null && httpContext.User.Identity.IsAuthenticated)
+                        rp.Add(Options.DBUserIdParameterName, httpContext.User.GetUserId());
                     continue;
                 }
 
