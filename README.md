@@ -1,7 +1,13 @@
 [![Build Status](https://travis-ci.org/andreujuanc/AutoProc.svg?branch=master)](https://travis-ci.org/andreujuanc/AutoProc)
 
 # AutoProc
-AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.
+AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API. 
+
+WHY: This project started as a way to migrate monoliths to microservices. In "typical" solutions it was usual to create all the business logic in the database, this creates a PAIN to rearchitect systems since it brings a ton of logic from SP to services. This library mitigates the migration and can start it by directly using autoproc and then partially creating controllers and removing stored procedures from the database.
+
+Request are not just passed directly to SPs, or anything alike. Everything is parsed, and it basically automates a simple CRUD Controller.
+
+Requests can be handled via delegate to cancel the request, to set the DbConnection per request (useful for multitenant scenarios) or to simply alter parameters.
 
 ## Please, understand this project is in early days. 
 # DO NOT USE IN PRODUCTION YET.
