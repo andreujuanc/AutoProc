@@ -46,8 +46,9 @@ This is called before every execution. You can change the connection dynamically
 
 `aprRequest` contains parsed information about from the request and query. AutoProcRequest
  
-### OnNeedExecutionAuthorization
-This is called before every execution. Return boolean. If true, then the request must be authenticated.
+### OnPreExecute
+This is called before every execution. Return boolean. If false, cancels the request. 
+This can be used as a way to cancel unauthorized requests.
 
 `context` is the HttpContext 
 
