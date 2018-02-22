@@ -10,8 +10,6 @@ Request are not just passed directly to SPs, or anything alike. Everything is pa
 Requests can be handled via delegate to cancel the request, to set the DbConnection per request (useful for multitenant scenarios) or to simply alter parameters.
 
 ## Please, understand this project is in early days. 
-# DO NOT USE IN PRODUCTION YET.
-## Authentication, Authorization and Security mechanisms are not yet implemented.
 
 ## Basic Usage
 With a couple of lines of code you can start having a working app without the hazle of coding controllers for each api, or changing query statements in your app. This way all your business logic resides in the database and delutes the backend size by a big margin.
