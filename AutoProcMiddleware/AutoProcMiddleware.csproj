@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Juan C. Andreu</Authors>
-    <Version>1.0.7</Version>
+    <Version Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">1.0.7.1-local</Version>
+    <Version Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">1.0.7.$(TRAVIS_BUILD_NUMBER)</Version>
     <Company />
     <Product>AutoProc Middleware</Product>
     <Description>AutoProc is a lightweight Asp.Net Core 2 middleware package which makes it easy to create a backend by exposing your stored procedures as an API.</Description>
