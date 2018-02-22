@@ -10,6 +10,8 @@ using System.Collections;
 using System.Data;
 using AutoProcMiddleware.Core;
 using Newtonsoft.Json;
+using static Dapper.SqlMapper;
+using System.Dynamic;
 //using Microsoft.AspNetCore.Authorization;
 //using static Dapper.SqlMapper;
 
@@ -20,7 +22,7 @@ namespace AutoProcMiddleware
     {
         private AutoProcContextOptions _options = null;
 
-        public AutoProcMiddleware(AutoProcContextOptions options)
+        public AutoProcMiddleware(AutoProcContextOptions options = null)
         {
             _options = options;
         }
@@ -30,7 +32,7 @@ namespace AutoProcMiddleware
 
             httpContext.Response.ContentType = "text/html charset=utf-8";
             httpContext.Response.StatusCode = 400;
-            var apr = new RequestParser()
+            var apr = new RequestParser(_options)
                .GetRequest(httpContext);
             if (!new RequestValidator().ValidateRequest(apr)) return;
 
@@ -122,59 +124,46 @@ namespace AutoProcMiddleware
             return cnn;
         }
 
+        public async Task<GridReader> ExecuteMultipleAsync(HttpContext httpContext, string source, string schema, string type, string procedure, string method, object parameters)
+        {
+            var p = parameters.GetType().GetProperties()
+                    .ToDictionary(x => x.Name, x => x.GetValue(parameters));
+            return await ExecuteMultipleAsync(httpContext, new AutoProcRequest()
+            {
+                 Source = source,
+                 Schema = schema,
+                 Type = type,
+                 Procedure = procedure,
+                 Method = method,
+                 Parameters = p
+            });
+        }
+        
+        public async Task<GridReader> ExecuteMultipleAsync(HttpContext httpContext, AutoProcRequest request)
+        {
 
-        //internal async Task<GridReader> ExecuteMultipleAsync(HttpContext httpContext, string source, string schema, string type, string procedure, string method, object parameters)
-        //{
+            IDbConnection dbcon = GetOpenDbContext(httpContext, request);
 
-        //    //httpContext.Response.
-        //    var connection = (IContextConnection)httpContext.RequestServices.GetService(typeof(IContextConnection));
-        //    IDbConnection dbcon = null;
-        //    if (source == "central")
-        //    {
-        //        if (connection == null || connection.CentralConnection == null)
-        //        {
-        //            await httpContext.Response.WriteAsync("Could not establish connection with central");
-        //            return null;
-        //        }
-        //        else
-        //            dbcon = connection.CentralConnection;
-        //    }
-        //    else if (source == "client")
-        //    {
-        //        if (connection == null || connection.ClientConnection == null)
-        //        {
-        //            await httpContext.Response.WriteAsync("Could not establish connection with client");
-        //            return null;
-        //        }
-        //        else
-        //            dbcon = connection.ClientConnection;
-        //    }
-        //    else
-        //    {
-        //        await httpContext.Response.WriteAsync("Invalid source call");
-        //        return null;
-        //    }
+            if (dbcon == null)
+            {
+                await httpContext.Response.WriteAsync("Could not establish connection");
+                return null;
+            }
 
-        //    if (dbcon == null)
-        //    {
-        //        await httpContext.Response.WriteAsync("Could not establish connection");
-        //        return null;
-        //    }
+            //IEnumerable<dynamic> result;
+            try
+            {
 
-        //    //IEnumerable<dynamic> result;
-        //    try
-        //    {
-        //        var ProcName = $"{schema}.P_{type}_{procedure}";
-        //        //result = await dbcon.QueryAsync(ProcName, parameters, null, null, System.Data.CommandType.StoredProcedure);
-        //        var result = dbcon.QueryMultiple(ProcName, parameters, null, null, System.Data.CommandType.StoredProcedure);
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await httpContext.Response.WriteAsync($"Invalid call for: {procedure}. Error: {ex.Message}");
-        //    }
-        //    return null;
-        //}
+                var ProcName = GetProcedureName(request);
+                var result = dbcon.QueryMultiple(ProcName, request.Parameters, null, null, System.Data.CommandType.StoredProcedure);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                await httpContext.Response.WriteAsync($"Invalid call for: {request.Procedure}. Error: {ex.Message}");
+            }
+            return null;
+        }
     }
 
 

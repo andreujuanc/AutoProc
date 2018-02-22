@@ -8,9 +8,15 @@ using System.Text;
 
 namespace AutoProcMiddleware.Core
 {
-    public class ParameterProcessor
+    public class ParameterProcessor : IParameterProcessor
     {
-        public static IDictionary<string, object> GetRequestParameters(HttpContext httpContext)
+        AutoProcContextOptions Options;
+        public ParameterProcessor(AutoProcContextOptions options)
+        {
+            Options = options;
+        }
+        
+        public IDictionary<string, object> GetRequestParameters(HttpContext httpContext)
         {
             var rp = new Dictionary<string, object>();
 
@@ -48,11 +54,11 @@ namespace AutoProcMiddleware.Core
             {
                 //    if (item.Key.ToLower() == "idfabrica" || item.Key.ToLower() == "v")
                 //        continue;
-                //    if (item.Key.ToLower() == "includeuser" && item.Value == "true")
-                //    {
-                //        rp.Add("ID_USER_LLAMADA", httpContext.GetUserId());
-                //        continue;
-                //    }
+                if (httpContext.User != null && item.Key.ToLower() == "includeuser" && item.Value == "true")
+                {
+                    rp.Add("ID_USER_LLAMADA", httpContext.User.GetUserId());
+                    continue;
+                }
 
                 if (rp.ContainsKey(item.Key))
                     rp[item.Key] = item.Value[0];

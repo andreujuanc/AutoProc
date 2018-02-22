@@ -8,6 +8,13 @@ namespace AutoProcMiddleware.Core
 {
     public class RequestParser
     {
+        IParameterProcessor ParameterProcessor;
+        AutoProcContextOptions Options;
+        public RequestParser(AutoProcContextOptions options)
+        {
+            ParameterProcessor = new ParameterProcessor(options);//TODO DI
+            Options = options;
+        }
         public AutoProcRequest GetRequest(HttpContext context)
         {
             var result = new AutoProcRequest()
