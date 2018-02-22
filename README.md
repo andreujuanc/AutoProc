@@ -34,7 +34,7 @@ This will execute the Following Stored Procedure:  [dbo].[P_GET_Items]
 
 As you can see, only P_X_Y named stored procedures can be executed. This will prevent execution of those not planned to.
 
-`myapp` in the url is just a string that is passed around and can be useful specially when dealing with multiple database apps. Data is passed by posting a body or via querystring.
+`myapp` in the url is just a string that is passed around and can be useful specially when dealing with multiple database or multitenant apps. Data is passed by posting a body or via querystring.
 
 
 ## Options
@@ -62,7 +62,7 @@ This can be used as a way to cancel unauthorized requests.
 ### BypassORM
 Defaults to false. Setting this to true makes AutoProc look for the the first column which the name starts with "JSON" and returns the string content from the first row.
 
-### Example:
+## Quick Example:
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
@@ -75,7 +75,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
           else
             return new SqlConnnection("CONNECTION STRING B ")
       };
-      options.BypassORM = true; //My SP returns valid JSON
+      options.BypassORM = true; //My SP returns valid JSON, no need to parse POCOs to json again. We just pass the result directly.
   });
 }
 ```
