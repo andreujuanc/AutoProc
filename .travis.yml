@@ -6,4 +6,4 @@ dist: trusty
 script:
  - dotnet test .\\AutoProc.Tests
  - dotnet pack -c Release
- - dotnet nuget push ./bin/Release/*.nupkg -k $NUGET_API_KEY
+ - dotnet nuget push ./AutoProcMiddleware/bin/Release/*.nupkg -k $NUGET_API_KEY -s https://www.nuget.org
